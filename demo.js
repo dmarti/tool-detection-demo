@@ -1,4 +1,5 @@
 function logMessage(msg) {
+	// Log a messages to the console and the messages area
 	console.log(msg);
 	var messages = document.getElementById('messages');
 	var el = document.createElement('p');
@@ -31,7 +32,8 @@ function setup(ev) {
 	logMessage("demo script loaded.");
 	if(typeof aloodo === 'object') {
 		aloodo.onLoad(function() {sendEvent("loaded")});
-		aloodo.onDetected(function() {sendEvent("tracking")});
+		aloodo.onBlocked(function() {sendEvent("blocked")});
+		aloodo.onDetected(function() {sendEvent("tracking")});	
 	}
 }
 
