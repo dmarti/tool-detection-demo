@@ -56,3 +56,6 @@ h1 {
 	font-weight: normal;
 }
 
+#messages p {
+	font-family: monospace;
+}
