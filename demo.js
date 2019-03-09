@@ -1,3 +1,5 @@
+var adElement;
+
 function logMessage(msg) {
 	// Log a messages to the console and the messages area
 	console.log(msg);
@@ -7,17 +9,9 @@ function logMessage(msg) {
 	messages.appendChild(el);
 }
 
-function googlePresent() {
-	// true if Google Analytics is present
-	if (window.ga && ga.loaded) {
-		return true;
-	}
-	logMessage("Google Analytics not found on this page.");
-	return false;
-}
-
 function sendEvent(eventName) {
-	if(!googlePresent()) {
+	if(!window.ga) {
+		logMessage("Google Analytics not found. Not sending event: " + eventName);
 		return;
 	}
 	logMessage("Sending event to GA: " + eventName);
@@ -28,13 +22,28 @@ function sendEvent(eventName) {
 	});
 }
 
-function setup(ev) {
-	logMessage("demo script loaded.");
+function runTest(ev) {
 	if(typeof aloodo === 'object') {
 		aloodo.onLoad(function() {sendEvent("loaded")});
-		aloodo.onBlocked(function() {sendEvent("blocked")});
+		aloodo.onBlocked(function() {sendEvent("cookieblocked")});
 		aloodo.onDetected(function() {sendEvent("tracking")});	
 	}
+
+	adElement = document.getElementById('banner');
+	console.log(adElement);
+	if (adElement.parentElement.scrollHeight > 1) {
+		sendEvent("noadblock");
+	} else {
+		sendEvent("adblock");
+		var acceptable_ad = document.createElement('img');
+		acceptable_ad.onload = function(){ sendEvent("whitelist") };
+		acceptable_ad.src = "https://yieldkit.com/favicon.ico";
+	}
+}
+
+function setup(ev) {
+	logMessage("demo script loaded.");
+	setTimeout(runTest, 2000);
 }
 
 window.addEventListener("load", setup);
