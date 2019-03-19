@@ -1,6 +1,6 @@
 # tool-detection-demo
 
-Demo of using Aloodo with Google Analytics.  See index.html for more info.
+Demo of using Aloodo with Google Analytics.  See [index.html](https://dmarti.github.io/tool-detection-demo/) for more info.
 
 
 ## Photo Credit
